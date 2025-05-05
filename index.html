@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #000;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .light-cord {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100px;
+            background: #666;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .light-bulb {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px #ffd700;
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.3s ease;
+        }
+
+        .light-bulb:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .light-beam {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            width: 200px;
+            height: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-50%);
+            transition: height 0.5s ease;
+            z-index: 2;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1;
+            transition: background 0.5s ease;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .login-box:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input, select {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #f5f6fa;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="light-cord"></div>
+    <div class="light-bulb" onclick="toggleLight()"></div>
+    <div class="light-beam"></div>
+    <div class="background-overlay"></div>
+    
+    <div class="login-container">
+        <div class="login-box">
+            <h1><i class="fas fa-book-reader"></i> Welcome to the Library</h1>
+            <form action="login.php" method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="password" name="password" placeholder="Enter your password" required>
+                <select name="role" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="admin">Admin</option>
+                    <option value="librarian">Librarian</option>
+                    <option value="student">Student</option>
+                </select>
+                <button type="submit">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleLight() {
+            const lightBulb = document.querySelector('.light-bulb');
+            const lightBeam = document.querySelector('.light-beam');
+            const backgroundOverlay = document.querySelector('.background-overlay');
+            const loginContainer = document.querySelector('.login-container');
+            
+            if (lightBeam.style.height === '500px') {
+                lightBeam.style.height = '0';
+                backgroundOverlay.style.background = 'rgba(0, 0, 0, 0.9)';
+                loginContainer.style.opacity = '0';
+                loginContainer.style.transform = 'translateY(50px)';
+                lightBulb.style.background = '#ffd700';
+            } else {
+                lightBeam.style.height = '500px';
+                backgroundOverlay.style.background = 'rgba(0, 0, 0, 0.3)';
+                loginContainer.style.opacity = '1';
+                loginContainer.style.transform = 'translateY(0)';
+                lightBulb.style.background = '#fff';
+            }
+        }
+    </script>
+</body>
+</html>
